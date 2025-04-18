@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol HomeRepository: AnyObject {
+protocol TrendRepository: AnyObject {
     func getTrendCoin() -> [TrendTOPCoinEntity]
     func getTrendNft() -> [TrendTOPNftEntity]
 }
 
-final class DummyHomeRepository: HomeRepository {
+final class DummyHomeRepository: TrendRepository {
     
     func getTrendCoin() -> [TrendTOPCoinEntity] {
         return [
