@@ -12,7 +12,7 @@ protocol TrendRepository: AnyObject {
     func getTrendNft() -> [TrendTOPNftEntity]
 }
 
-final class DummyHomeRepository: TrendRepository {
+final class DummyTrendRepository: TrendRepository {
     
     func getTrendCoin() -> [TrendTOPCoinEntity] {
         return [
