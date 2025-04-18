@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+enum PercentageStatus {
+    case 음수
+    case 제로
+    case 양수
+}
