@@ -8,14 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var selectedTab = 0
+    
+    let tabItems = [
+        TabItem(icon: ImageLiterals.trend),
+        TabItem(icon: ImageLiterals.search),
+        TabItem(icon: ImageLiterals.wallet)
+    ]
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+
+        ZStack(alignment: .bottom) {
+            TabView(selection: $selectedTab) {
+                TrendView()
+                    .tag(0)
+                
+                TrendView()
+                    .tag(1)
+                
+                TrendView()
+                    .tag(2)
+            }
+            
+            CustomCoinTabView(selectedTab: $selectedTab, tabItems: tabItems)
         }
-        .padding()
     }
 }
 
