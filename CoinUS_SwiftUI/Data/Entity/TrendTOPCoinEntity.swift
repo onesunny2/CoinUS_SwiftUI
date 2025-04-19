@@ -5,9 +5,9 @@
 //  Created by Lee Wonsun on 4/18/25.
 //
 
-import Foundation
+import SwiftUI
 
-struct TrendTOPCoinEntity: Identifiable, Hashable {
+struct TrendTOPEntity: Identifiable, Hashable {
     let id: String
     let name: String
     let symbol: String
@@ -20,8 +20,17 @@ struct TrendTOPCoinEntity: Identifiable, Hashable {
             return .음수
         } else if changePercentage.contains("+") {
             return .양수
-        } else {
+        }
+        else {
             return .제로
+        }
+    }
+    
+    var statusColor: Color {
+        switch percentageStatus {
+        case .음수: return .blue
+        case .제로: return .primary
+        case .양수: return .red
         }
     }
 }
