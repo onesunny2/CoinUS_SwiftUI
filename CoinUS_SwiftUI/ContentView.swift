@@ -24,10 +24,10 @@ struct ContentView: View {
                 TrendView()
                     .tag(0)
                 
-                TrendView()
+                SearchView()
                     .tag(1)
                 
-                TrendView()
+                FavoriteView()
                     .tag(2)
             }
             
