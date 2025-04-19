@@ -76,7 +76,7 @@ struct TrendTopGridCell: View {
         HStack(alignment: .center, spacing: 12) {
             Text("\(index + 1)")
                 .setBasic(size: 20, weight: .semibold)
-            IconImage(url: coin.image)
+            IconImageCell(url: coin.image)
             
             VStack(alignment: .leading) {
                 Text(truncatedName)
