@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+enum TrendType {
+    case coin
+    case nft
+}

@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+enum FavoriteType {
+    case trend
+    case favorite
+}
