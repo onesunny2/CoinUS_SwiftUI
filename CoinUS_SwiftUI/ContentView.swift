@@ -21,17 +21,43 @@ struct ContentView: View {
 
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedTab) {
-                TrendView()
-                    .tag(0)
                 
-                SearchView()
-                    .tag(1)
+                let trendRepository = DummyTrendRepository()
+                NavigationView {
+                    TrendView(dummyData: trendRepository)
+                        .navigationTitle(Title.trend.text)
+                        .navigationBarTitleDisplayMode(.large)
+                }
+                .tag(0)
                 
-                FavoriteView()
-                    .tag(2)
+                NavigationView {
+                    SearchView()
+                        .navigationTitle(Title.search.text)
+                        .navigationBarTitleDisplayMode(.large)
+                }
+                .tag(1)
+                
+                NavigationView {
+                    FavoriteView()
+                        .navigationTitle(Title.favorite.text)
+                        .navigationBarTitleDisplayMode(.large)
+                }
+                .tag(2)
             }
             
             CustomCoinTabView(selectedTab: $selectedTab, tabItems: tabItems)
+        }
+    }
+}
+
+extension ContentView {
+    enum Title: String {
+        case trend = "Crypto Coin"
+        case search = "Search"
+        case favorite = "Favorite Coin"
+        
+        var text: String {
+            return self.rawValue
         }
     }
 }
