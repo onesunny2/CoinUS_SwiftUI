@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+enum ImageLiterals {
+    // tabView 아이콘
+    static let trend = "chart.line.uptrend.xyaxis"
+    static let search = "magnifyingglass"
+    static let wallet = "wallet.bifold.fill"
+}

@@ -1,5 +1,5 @@
 //
-//  CoinTabView.swift
+//  CustomCoinTabView.swift
 //  CoinUS_SwiftUI
 //
 //  Created by Lee Wonsun on 4/19/25.
@@ -10,7 +10,6 @@ import SwiftUI
 struct TabItem: Identifiable {
     let id = UUID()
     let icon: String
-    let color: Color
 }
 
 struct CustomCoinTabView: View {
@@ -41,10 +40,10 @@ struct CustomCoinTabView: View {
             }) {
                 
                 Image(systemName: item.icon)
-                    .font(.system(size: 24, weight: selectedTab == index ? .bold : .regular))
-                    .scaleEffect(selectedTab == index ? 1.2 : 1.0)
+                    .font(.system(size: 24, weight: selectedTab == index ? .semibold : .regular))
+                    .scaleEffect(selectedTab == index ? 1.0 : 0.9)
                     .frame(maxWidth: .infinity)
-                    .foregroundColor(selectedTab == index ? item.color : .gray)
+                    .foregroundColor(selectedTab == index ? .mint : .gray)
             }
         }
     }
@@ -74,7 +73,7 @@ struct CustomCoinTabView: View {
         let xOffset = baseOffset + centeringOffset + finalAdjustment
         
         return RoundedRectangle(cornerRadius: 25)
-            .fill(tabItems[selectedTab].color.opacity(0.2))
+            .fill(.mint.opacity(0.1))
             .frame(width: itemWidth - 20, height: 50)
             .offset(x: xOffset, y: 0)
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: selectedTab)
