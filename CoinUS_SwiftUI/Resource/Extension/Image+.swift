@@ -14,4 +14,10 @@ extension Image {
             .resizable()
             .aspectRatio(ratio, contentMode: mode)
     }
+    
+    func setSystemImage(size: CGFloat, weight: Font.Weight) -> some View {
+        self
+            .font(.system(size: size, weight: weight))
+            .foregroundStyle(.mint)
+    }
 }
