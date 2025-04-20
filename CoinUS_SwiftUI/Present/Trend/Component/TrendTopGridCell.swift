@@ -10,7 +10,7 @@ import SwiftUI
 struct TrendTopGridCell: View {
     
     let title: String
-    let trendData: TrendRepository
+    let trendData: [TrendTOPEntity]
     let trendType: TrendType
     
     private let rows: [GridItem] = [
@@ -43,9 +43,9 @@ struct TrendTopGridCell: View {
     }
     
     private func topCoinForEach() -> some View {
-        ForEach(trendData.getTrendInfo(type: trendType).indices, id: \.self) { index in
+        ForEach(trendData.indices, id: \.self) { index in
             
-            let coin = trendData.getTrendInfo(type: trendType)[index]
+            let coin = trendData[index]
             let truncatedName = coin.name.count > 12 ? coin.name.prefix(12) + "..." : coin.name
             let truncatedSymbol = coin.symbol.count > 12 ? coin.symbol.prefix(12) + "..." : coin.symbol
             

@@ -23,8 +23,10 @@ struct ContentView: View {
             TabView(selection: $selectedTab) {
                 
                 let trendRepository = DummyTrendRepository()
+                let favoriteRepository = DummyFavoriteRepository()
+                let trendViewModel = TrendViewModel(trendRepository: trendRepository, favoriteRepository: favoriteRepository)
                 NavigationView {
-                    TrendView(dummyData: trendRepository)
+                    TrendView(viewModel: trendViewModel)
                         .navigationTitle(Title.trend.text)
                         .navigationBarTitleDisplayMode(.large)
                 }

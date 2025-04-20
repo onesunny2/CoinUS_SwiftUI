@@ -9,18 +9,20 @@ import SwiftUI
 
 struct TrendView: View {
     
-    let dummyData: TrendRepository
-    let favoriteData: FavoriteRepository
-
+    @StateObject var viewModel: TrendViewModel
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 40) {
                 favoriteList
-                TrendTopGridCell(title: StringLiteral.topCoin.text, trendData: dummyData, trendType: .coin)
-                TrendTopGridCell(title: StringLiteral.topNft.text, trendData: dummyData, trendType: .nft)
+                TrendTopGridCell(title: StringLiteral.topCoin.text, trendData: viewModel.output.trendCoinItems, trendType: .coin)
+                TrendTopGridCell(title: StringLiteral.topNft.text, trendData: viewModel.output.trendNftItems, trendType: .nft)
             }
         }
         .padding(.top, 10)
+        .onAppear {
+            viewModel.action(.onAppear)
+        }
     }
     
     private var favoriteTitle: some View {
@@ -34,7 +36,7 @@ struct TrendView: View {
             favoriteTitle
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
-                    ForEach(favoriteData.getFavoriteInfo(type: .trend), id: \.id) { coin in
+                    ForEach(viewModel.output.favoriteItems, id: \.id) { coin in
                         FavoriteCoinCell(favoriteData: coin, type: .trend)
                     }
                 }
@@ -57,5 +59,7 @@ extension TrendView {
 }
 
 #Preview {
-    TrendView(dummyData: DummyTrendRepository(), favoriteData: DummyFavoriteRepository())
+    TrendView(
+        viewModel: TrendViewModel(trendRepository: DummyTrendRepository(), favoriteRepository: DummyFavoriteRepository())
+    )
 }
