@@ -31,7 +31,30 @@ final class AppStorageManager: ObservableObject {
         return coinItems
     }
     
-    func addFavoriteItem(_ item: String) {
+    func AddRemoveFavoriteItem(_ item: String) {
+        var lists = coinItems
+        guard !lists.contains(item) else {
+            // delete
+            lists.removeAll { $0 == item }
+            coinItems = lists
+            return
+        }
+        // add
+        guard lists.count < 10 else {
+            // TODO: 토스트 메시지 -> 10개까지만 가능하다
+            print("저장된 코인 10개 초과")
+            return
+        }
+        
+        lists.append(item)
+        coinItems = lists
+    }
+    
+    func checkFavoriteItem(_ item: String) -> Bool {
+        return coinItems.contains(item)
+    }
+    
+    private func addFavoriteItem(_ item: String) {
         var lists = coinItems
         guard !lists.contains(item) else { return }
         guard lists.count < 10 else {
@@ -43,7 +66,7 @@ final class AppStorageManager: ObservableObject {
         coinItems = lists
     }
     
-    func removeFavoriteItem(_ item: String) {
+    private func removeFavoriteItem(_ item: String) {
         var lists = coinItems
         lists.removeAll { $0 == item }
         coinItems = lists
