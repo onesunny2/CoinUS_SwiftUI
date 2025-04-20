@@ -42,8 +42,9 @@ struct ContentView: View {
                 }
                 .tag(1)
                 
+                let favoriteVM = FavoriteViewModel(favoriteRepository: favoriteRP)
                 NavigationView {
-                    FavoriteView()
+                    FavoriteView(viewModel: favoriteVM)
                         .navigationTitle(Title.favorite.text)
                         .navigationBarTitleDisplayMode(.large)
                 }

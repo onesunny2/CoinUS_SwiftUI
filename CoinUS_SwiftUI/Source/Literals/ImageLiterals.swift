@@ -16,4 +16,7 @@ enum ImageLiterals {
     // favorite 아이콘
     static let star = "star"
     static let starFill = "star.fill"
+    
+    // navigationBar 아이콘
+    static let chevronLeft = "chevron.left"
 }
