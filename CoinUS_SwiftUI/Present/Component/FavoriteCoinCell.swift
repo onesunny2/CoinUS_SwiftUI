@@ -32,6 +32,7 @@ struct FavoriteCoinCell: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(favoriteData.name)
                     .setBasic(size: 16, weight: .medium)
+                    .lineLimit(1)
                 
                 Text(favoriteData.symbol)
                     .setBasic(size: 12, weight: .regular, color: .gray)
@@ -58,7 +59,7 @@ struct FavoriteCoinCell: View {
 #Preview {
     
     let data = DummyFavoriteRepository().getFavoriteInfo(type: .trend)[0]
-    let type: FavoriteType = .trend
+    let type: FavoriteType = .favorite
 
     FavoriteCoinCell(favoriteData: data, type: type)
         .padding(.horizontal, 20)
