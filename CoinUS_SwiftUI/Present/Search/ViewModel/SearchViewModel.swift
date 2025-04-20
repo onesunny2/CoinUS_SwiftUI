@@ -34,6 +34,7 @@ extension SearchViewModel {
     
     struct Output {
         var searchResults: [SearchCoinEntity] = []
+        var isResultEmpty: Bool = false
     }
     
     func transform() {
@@ -57,6 +58,11 @@ extension SearchViewModel {
     
     private func getSearchResults(_ keyword: String) {
         output.searchResults = searchRepository.getSearchInfo(keyword)
+        guard output.searchResults.isEmpty else {
+            output.isResultEmpty = false
+            return
+        }
+        output.isResultEmpty = true
     }
 }
 

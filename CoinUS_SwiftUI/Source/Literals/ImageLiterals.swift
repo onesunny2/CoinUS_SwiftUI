@@ -12,4 +12,8 @@ enum ImageLiterals {
     static let trend = "chart.line.uptrend.xyaxis"
     static let search = "magnifyingglass"
     static let wallet = "wallet.bifold.fill"
+    
+    // favorite 아이콘
+    static let star = "star"
+    static let starFill = "star.fill"
 }

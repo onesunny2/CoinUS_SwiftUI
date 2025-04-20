@@ -21,6 +21,7 @@ struct ContentView: View {
 
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedTab) {
+                let appStorage = AppStorageManager.shared
                 
                 let trendRP = DummyTrendRepository()
                 let favoriteRP = DummyFavoriteRepository()
@@ -33,7 +34,7 @@ struct ContentView: View {
                 .tag(0)
                 
                 let searchRP = DummySearchRepository()
-                let searchVM = SearchViewModel(searchRepository: searchRP)
+                let searchVM = SearchViewModel(searchRepository: searchRP, appStorageManager: appStorage)
                 NavigationView {
                     SearchView(viewModel: searchVM)
                         .navigationTitle(Title.search.text)

@@ -15,25 +15,69 @@ struct SearchView: View {
     
     var body: some View {
         VStack {
-            Text("SearchView")
+            if viewModel.output.isResultEmpty {
+                noResult
+            } else {
+                searchResultScroll(viewModel.output.searchResults)
+            }
         }
         .searchable(
             text: $keyword,
             placement: .navigationBarDrawer,
             prompt: StringLiteral.placeHolder.text
         )
+        .onSubmit(of: .search) {
+            viewModel.action(.search(keyword: keyword))
+        }
     }
     
-//    private func searchResultCell(_ entity:) -> some View {
-//        HStack {
-//            IconImageCell(url: <#T##String#>)
-//        }
-//    }
+    private var noResult: some View {
+        Text(StringLiteral.noResult.text)
+            .setBasic(size: 24, weight: .medium)
+    }
+    
+    private func searchResultScroll(_ entity: [SearchCoinEntity]) -> some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 20) {
+                ForEach(entity, id: \.id) { coin in
+                    NavigationLink {
+                        ChartView()
+                    } label: {
+                        searchResultCell(coin)
+                    }
+                }
+            }
+            .padding(20)
+        }
+    }
+    
+    private func searchResultCell(_ coin: SearchCoinEntity) -> some View {
+        HStack(alignment: .center, spacing: 10) {
+            IconImageCell(url: coin.image)
+            
+            VStack(alignment: .leading, spacing: 0) {
+                Text(coin.name)
+                    .setBasic(size: 16, weight: .bold)
+                Text(coin.symbol)
+                    .setBasic(size: 12, weight: .regular, color: .gray)
+            }
+            
+            Spacer()
+            
+            Button {
+                viewModel.action(.favorite(id: coin.id))
+            } label: {
+                Image(systemName: coin.isFavorite ? ImageLiterals.starFill : ImageLiterals.star)
+                    .setSystemImage(size: 20, weight: .medium)
+            }
+        }
+    }
 }
 
 extension SearchView {
     enum StringLiteral: String {
         case placeHolder = "코인 이름을 검색하세요"
+        case noResult = "검색결과가 없습니다"
         
         var text: String {
             return self.rawValue
@@ -44,6 +88,6 @@ extension SearchView {
 #Preview {
     
     let searchRP = DummySearchRepository()
-    let searchVM = SearchViewModel(searchRepository: searchRP)
+    let searchVM = SearchViewModel(searchRepository: searchRP, appStorageManager: AppStorageManager.shared)
     SearchView(viewModel: searchVM)
 }
