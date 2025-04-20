@@ -16,10 +16,11 @@ final class SearchViewModel: ViewModelType {
     var cancellables = Set<AnyCancellable>()
     
     private let searchRepository: SearchRepository
+    private let appStorageManager: AppStorageManager
     
-    init(searchRepository: SearchRepository) {
+    init(searchRepository: SearchRepository, appStorageManager: AppStorageManager) {
         self.searchRepository = searchRepository
-        
+        self.appStorageManager = appStorageManager
         transform()
     }
 }
@@ -41,6 +42,15 @@ extension SearchViewModel {
                 guard let self else { return }
                 // TODO: 실제 네트워크 통신 시에는 키워드에 대한 결과 나오도록 잘 받아야 함
                 self.getSearchResults(keyword)
+            }
+            .store(in: &cancellables)
+        
+        input.tappedFavoriteButton
+            .sink { [weak self] id in
+                guard let self else { return }
+                print("tappedFavorite- id: \(id)")
+                appStorageManager.AddRemoveFavoriteItem(id)
+                print("현재 저장 리스트: \(appStorageManager.loadFavoriteItem())")
             }
             .store(in: &cancellables)
     }
