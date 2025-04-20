@@ -12,4 +12,5 @@ struct SearchCoinEntity: Identifiable, Hashable {
     let name: String
     let symbol: String
     let image: String
+    let isFavorite: Bool
 }
