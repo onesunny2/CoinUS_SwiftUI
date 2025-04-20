@@ -21,19 +21,22 @@ struct ContentView: View {
 
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedTab) {
+                let appStorage = AppStorageManager.shared
                 
-                let trendRepository = DummyTrendRepository()
-                let favoriteRepository = DummyFavoriteRepository()
-                let trendViewModel = TrendViewModel(trendRepository: trendRepository, favoriteRepository: favoriteRepository)
+                let trendRP = DummyTrendRepository()
+                let favoriteRP = DummyFavoriteRepository()
+                let trendVM = TrendViewModel(trendRepository: trendRP, favoriteRepository: favoriteRP)
                 NavigationView {
-                    TrendView(viewModel: trendViewModel)
+                    TrendView(viewModel: trendVM)
                         .navigationTitle(Title.trend.text)
                         .navigationBarTitleDisplayMode(.large)
                 }
                 .tag(0)
                 
+                let searchRP = DummySearchRepository()
+                let searchVM = SearchViewModel(searchRepository: searchRP, appStorageManager: appStorage)
                 NavigationView {
-                    SearchView()
+                    SearchView(viewModel: searchVM)
                         .navigationTitle(Title.search.text)
                         .navigationBarTitleDisplayMode(.large)
                 }
