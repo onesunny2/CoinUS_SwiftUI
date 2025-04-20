@@ -12,7 +12,7 @@ struct TrendView: View {
     @StateObject var viewModel: TrendViewModel
     
     var body: some View {
-        ScrollView {
+        ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 40) {
                 favoriteList
                 TrendTopGridCell(title: StringLiteral.topCoin.text, trendData: viewModel.output.trendCoinItems, trendType: .coin)
