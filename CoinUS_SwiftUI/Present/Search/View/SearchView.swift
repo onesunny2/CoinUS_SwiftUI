@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SearchView: View {
     
+    @StateObject var viewModel: SearchViewModel
+    
     @State private var keyword: String = ""
     
     var body: some View {
@@ -21,6 +23,12 @@ struct SearchView: View {
             prompt: StringLiteral.placeHolder.text
         )
     }
+    
+//    private func searchResultCell(_ entity:) -> some View {
+//        HStack {
+//            IconImageCell(url: <#T##String#>)
+//        }
+//    }
 }
 
 extension SearchView {
@@ -34,5 +42,8 @@ extension SearchView {
 }
 
 #Preview {
-    SearchView()
+    
+    let searchRP = DummySearchRepository()
+    let searchVM = SearchViewModel(searchRepository: searchRP)
+    SearchView(viewModel: searchVM)
 }
