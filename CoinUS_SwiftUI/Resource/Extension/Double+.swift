@@ -22,4 +22,13 @@ extension Double {
             return String(format: "%.2f", new) + "%"
         }
     }
+    
+    func translate₩Formatted() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 0
+        
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: self)) ?? "\(Int(self))"
+        return "₩\(formattedNumber)"
+    }
 }
