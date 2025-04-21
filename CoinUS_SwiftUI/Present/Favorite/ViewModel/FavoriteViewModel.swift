@@ -31,6 +31,7 @@ extension FavoriteViewModel {
     
     struct Output {
         var favoriteItems: [FavoriteCoinEntity] = []
+        var isLoading: Bool = true
     }
     
     func transform() {
@@ -38,7 +39,9 @@ extension FavoriteViewModel {
             .sink { [weak self] _ in
                 guard let self else { return }
                 Task {
+                    self.output.isLoading = true
                     await self.getFavoriteCoinInfo()
+                    self.output.isLoading = false
                 }
             }
             .store(in: &cancellables)

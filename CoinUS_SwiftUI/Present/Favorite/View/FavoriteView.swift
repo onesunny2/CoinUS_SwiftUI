@@ -23,6 +23,7 @@ struct FavoriteView: View {
         .onAppear {
             viewModel.action(.onAppear)
         }
+        .redacted(reason: viewModel.output.isLoading ? .placeholder : [])
     }
     
     private func FavoriteCoinsGrid() -> some View {
