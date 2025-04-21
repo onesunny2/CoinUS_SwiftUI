@@ -9,22 +9,23 @@ import Foundation
 
 enum NetworkURL {
     case market(ids: [String])
+    case trend
     
     private var baseURL: String {
         switch self {
         case .market: return "https://api.coingecko.com"
+        case .trend: return "https://api.coingecko.com"
         }
     }
     
     private var method: HTTPMethod {
-        switch self {
-        case .market: return .get
-        }
+        return .get
     }
     
     private var path: String {
         switch self {
         case .market: return "/api/v3/coins/markets"
+        case .trend: return "/api/v3/search/trending"
         }
     }
     
@@ -33,6 +34,7 @@ enum NetworkURL {
         case let .market(ids):
             let idsToString = ids.joined(separator: ",")
             return ["vs_currency": "KRW", "ids": idsToString, "sparkline": "true"]
+        case .trend: return nil
         }
     }
     
@@ -70,10 +72,6 @@ enum NetworkURL {
                        if let url = components?.url {
                            request.url = url
                        }
-                   case .post, .put:
-                       // POST, PUT 요청에서는 JSON 바디로 추가
-                       let jsonData = try JSONSerialization.data(withJSONObject: parameters)
-                       request.httpBody = jsonData
                    default:
                        break
                    }
