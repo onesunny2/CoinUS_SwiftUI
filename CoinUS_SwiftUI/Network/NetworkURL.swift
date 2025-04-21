@@ -10,12 +10,10 @@ import Foundation
 enum NetworkURL {
     case market(ids: [String])
     case trend
+    case search(keyword: String)
     
     private var baseURL: String {
-        switch self {
-        case .market: return "https://api.coingecko.com"
-        case .trend: return "https://api.coingecko.com"
-        }
+        return "https://api.coingecko.com"
     }
     
     private var method: HTTPMethod {
@@ -26,6 +24,7 @@ enum NetworkURL {
         switch self {
         case .market: return "/api/v3/coins/markets"
         case .trend: return "/api/v3/search/trending"
+        case .search: return "/api/v3/search"
         }
     }
     
@@ -35,6 +34,8 @@ enum NetworkURL {
             let idsToString = ids.joined(separator: ",")
             return ["vs_currency": "KRW", "ids": idsToString, "sparkline": "true"]
         case .trend: return nil
+        case let .search(keyword):
+            return ["query": keyword]
         }
     }
     
