@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		43D1AFCD2DB233EC00ACE91B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 43D1AFCC2DB233EC00ACE91B /* .gitignore */; };
+		43D1B3D22DB661C700ACE91B /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 43D1B3D12DB661C700ACE91B /* DGCharts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D1B3D22DB661C700ACE91B /* DGCharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +73,7 @@
 			);
 			name = CoinUS_SwiftUI;
 			packageProductDependencies = (
+				43D1B3D12DB661C700ACE91B /* DGCharts */,
 			);
 			productName = CoinUS_SwiftUI;
 			productReference = 43D1AFBB2DB233C400ACE91B /* CoinUS_SwiftUI.app */;
@@ -100,6 +103,9 @@
 			);
 			mainGroup = 43D1AFB22DB233C400ACE91B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				43D1B3D02DB661C700ACE91B /* XCRemoteSwiftPackageReference "Charts" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 43D1AFBC2DB233C400ACE91B /* Products */;
 			projectDirPath = "";
@@ -341,6 +347,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		43D1B3D02DB661C700ACE91B /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChartsOrg/Charts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		43D1B3D12DB661C700ACE91B /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 43D1B3D02DB661C700ACE91B /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 43D1AFB32DB233C400ACE91B /* Project object */;
 }
