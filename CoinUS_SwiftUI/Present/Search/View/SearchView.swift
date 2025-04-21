@@ -42,7 +42,9 @@ struct SearchView: View {
             VStack(spacing: 20) {
                 ForEach(entity, id: \.id) { coin in
                     NavigationLink {
-                        ChartView()
+                        let chartRP = DefaultChartRepository()
+                        let chartVM = ChartViewModel(id: coin.id, chartRepository: chartRP)
+                        ChartView(viewModel: chartVM)
                     } label: {
                         searchResultCell(coin)
                     }

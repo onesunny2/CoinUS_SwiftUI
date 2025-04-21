@@ -54,7 +54,9 @@ struct TrendTopGridCell: View {
                 switch trendType {
                 case .coin:
                     NavigationLink {
-                        ChartView()
+                        let chartRP = DefaultChartRepository()
+                        let chartVM = ChartViewModel(id: coin.id, chartRepository: chartRP)
+                        ChartView(viewModel: chartVM)
                     } label: {
                         cellArea(at: index, coin: coin, truncatedName: truncatedName, truncatedSymbol: truncatedSymbol)
                     }

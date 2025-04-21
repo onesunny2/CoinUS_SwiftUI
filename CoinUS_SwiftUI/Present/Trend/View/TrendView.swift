@@ -41,7 +41,9 @@ struct TrendView: View {
                 HStack(spacing: 15) {
                     ForEach(viewModel.output.favoriteItems, id: \.id) { coin in
                         NavigationLink {
-                            ChartView()
+                            let chartRP = DefaultChartRepository()
+                            let chartVM = ChartViewModel(id: coin.id, chartRepository: chartRP)
+                            ChartView(viewModel: chartVM)
                         } label: {
                             FavoriteCoinCell(favoriteData: coin, type: .trend)
                         }

@@ -11,48 +11,48 @@ struct ContentView: View {
     
     @State private var selectedTab = 0
     
-    let tabItems = [
-        TabItem(icon: ImageLiterals.trend),
-        TabItem(icon: ImageLiterals.search),
-        TabItem(icon: ImageLiterals.wallet)
-    ]
-    
     var body: some View {
-
-        ZStack(alignment: .bottom) {
-            TabView(selection: $selectedTab) {
-                let appStorage = AppStorageManager.shared
-                
-                let trendRP = DefaultTrendRepository()
-                let favoriteRP = DefaultFavoriteRepository()
-                let trendVM = TrendViewModel(trendRepository: trendRP, favoriteRepository: favoriteRP)
-                NavigationView {
-                    TrendView(viewModel: trendVM)
-                        .navigationTitle(Title.trend.text)
-                        .navigationBarTitleDisplayMode(.large)
-                }
-                .tag(0)
-                
-                let searchRP = DefaultSearchRepository()
-                let searchVM = SearchViewModel(searchRepository: searchRP, appStorageManager: appStorage)
-                NavigationView {
-                    SearchView(viewModel: searchVM)
-                        .navigationTitle(Title.search.text)
-                        .navigationBarTitleDisplayMode(.large)
-                }
-                .tag(1)
-                
-                let favoriteVM = FavoriteViewModel(favoriteRepository: favoriteRP)
-                NavigationView {
-                    FavoriteView(viewModel: favoriteVM)
-                        .navigationTitle(Title.favorite.text)
-                        .navigationBarTitleDisplayMode(.large)
-                }
-                .tag(2)
-            }
+        
+        TabView(selection: $selectedTab) {
+            let appStorage = AppStorageManager.shared
             
-            CustomCoinTabView(selectedTab: $selectedTab, tabItems: tabItems)
+            let trendRP = DefaultTrendRepository()
+            let favoriteRP = DefaultFavoriteRepository()
+            let trendVM = TrendViewModel(trendRepository: trendRP, favoriteRepository: favoriteRP)
+            NavigationView {
+                TrendView(viewModel: trendVM)
+                    .navigationTitle(Title.trend.text)
+                    .navigationBarTitleDisplayMode(.large)
+            }
+            .tabItem {
+                Image(systemName: ImageLiterals.trend)
+            }
+            .tag(0)
+            
+            let searchRP = DefaultSearchRepository()
+            let searchVM = SearchViewModel(searchRepository: searchRP, appStorageManager: appStorage)
+            NavigationView {
+                SearchView(viewModel: searchVM)
+                    .navigationTitle(Title.search.text)
+                    .navigationBarTitleDisplayMode(.large)
+            }
+            .tabItem {
+                Image(systemName: ImageLiterals.search)
+            }
+            .tag(1)
+            
+            let favoriteVM = FavoriteViewModel(favoriteRepository: favoriteRP)
+            NavigationView {
+                FavoriteView(viewModel: favoriteVM)
+                    .navigationTitle(Title.favorite.text)
+                    .navigationBarTitleDisplayMode(.large)
+            }
+            .tabItem {
+                Image(systemName: ImageLiterals.wallet)
+            }
+            .tag(2)
         }
+        .tint(.mint)
     }
 }
 
