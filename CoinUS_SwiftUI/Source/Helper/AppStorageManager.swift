@@ -53,22 +53,4 @@ final class AppStorageManager: ObservableObject {
     func checkFavoriteItem(_ item: String) -> Bool {
         return coinItems.contains(item)
     }
-    
-    private func addFavoriteItem(_ item: String) {
-        var lists = coinItems
-        guard !lists.contains(item) else { return }
-        guard lists.count < 10 else {
-            // TODO: 토스트 메시지 -> 10개까지만 가능하다
-            return
-        }
-        
-        lists.append(item)
-        coinItems = lists
-    }
-    
-    private func removeFavoriteItem(_ item: String) {
-        var lists = coinItems
-        lists.removeAll { $0 == item }
-        coinItems = lists
-    }
 }
