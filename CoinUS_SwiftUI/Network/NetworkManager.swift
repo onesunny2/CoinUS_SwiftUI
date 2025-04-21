@@ -20,6 +20,35 @@ final class NetworkManager {
         self.session = URLSession(configuration: configuration)
     }
     
+    func request<T: Decodable>(api: NetworkURL) async throws -> T {
+            do {
+                // NetworkAPI에서 URLRequest를 생성
+                let request = try api.createURLRequest()
+                
+                // 네트워크 요청 수행
+                let (data, response) = try await session.data(for: request)
+                
+                // 응답 확인
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    throw CoinError.invalidResponse
+                }
+                
+                // 상태 코드 확인
+                guard (200...299).contains(httpResponse.statusCode) else {
+                    throw CoinError.serverError(statusCode: httpResponse.statusCode)
+                }
+                
+                // JSON 디코딩
+                return try decoder.decode(T.self, from: data)
+            } catch {
+                if let decodingError = error as? DecodingError {
+                    throw CoinError.decodingFailed(decodingError)
+                } else {
+                    throw error
+                }
+            }
+        }
+    
     func request<T: Decodable>(url: URL, method: HTTPMethod = .get) async throws -> T {
           // URLRequest 생성
           var request = URLRequest(url: url)
