@@ -12,6 +12,7 @@
 
 ## SecureKey
 *.xcconfig
+APIKey.swift
 
 ## User settings
 xcuserdata/
