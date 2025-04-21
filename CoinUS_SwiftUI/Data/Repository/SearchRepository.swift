@@ -8,15 +8,43 @@
 import Foundation
 
 protocol SearchRepository: AnyObject {
-    func getSearchInfo(_ keyword: String) -> [SearchCoinEntity]
+    func getSearchInfo(_ keyword: String) async -> [SearchCoinEntity]
+}
+
+final class DefaultSearchRepository: SearchRepository {
+    func getSearchInfo(_ keyword: String) async -> [SearchCoinEntity] {
+        
+        let appStorage = AppStorageManager.shared
+        let network = NetworkManager.shared
+        
+        do {
+            let api = NetworkURL.search(keyword: keyword)
+            let results: GeckoSearch = try await network.request(api: api)
+            
+            let searchEntities: [SearchCoinEntity] = results.coins.map {
+                
+                let favoriteList = appStorage.loadFavoriteItem()
+                
+                return SearchCoinEntity(
+                    id: $0.id,
+                    name: $0.name,
+                    symbol: $0.symbol,
+                    image: $0.thumbImgURL,
+                    isFavorite: favoriteList.contains($0.id)
+                )
+            }
+            
+            return searchEntities
+        } catch {
+            print(error)
+            
+            return []
+        }
+    }
 }
 
 final class DummySearchRepository: SearchRepository {
-    func getSearchInfo(_ keyword: String) -> [SearchCoinEntity] {
-        
-        let appStorage = AppStorageManager.shared
-        
-        // TODO: 실제 네트워크 통신 시에는 id 받아서 확인해야 함
+    func getSearchInfo(_ keyword: String) async -> [SearchCoinEntity] {
         
         return [
             SearchCoinEntity(
