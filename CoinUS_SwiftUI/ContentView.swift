@@ -33,7 +33,7 @@ struct ContentView: View {
                 }
                 .tag(0)
                 
-                let searchRP = DummySearchRepository()
+                let searchRP = DefaultSearchRepository()
                 let searchVM = SearchViewModel(searchRepository: searchRP, appStorageManager: appStorage)
                 NavigationView {
                     SearchView(viewModel: searchVM)

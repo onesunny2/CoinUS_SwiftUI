@@ -29,11 +29,12 @@ struct SearchView: View {
         .onSubmit(of: .search) {
             viewModel.action(.search(keyword: keyword))
         }
+        .redacted(reason: viewModel.output.isLoading ? .placeholder : [])
     }
     
     private var noResult: some View {
         Text(StringLiteral.noResult.text)
-            .setBasic(size: 24, weight: .medium)
+            .setBasic(size: 20, weight: .regular)
     }
     
     private func searchResultScroll(_ entity: [SearchCoinEntity]) -> some View {
@@ -58,8 +59,10 @@ struct SearchView: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(coin.name)
                     .setBasic(size: 16, weight: .bold)
+                    .lineLimit(1)
                 Text(coin.symbol)
                     .setBasic(size: 12, weight: .regular, color: .gray)
+                    .lineLimit(1)
             }
             
             Spacer()
