@@ -19,12 +19,14 @@ struct CoinTrend: Decodable {
 struct NftTrend: Decodable {
     let id: String
     let name: String
+    let symbol: String
     let thumbImgURL: String
     let data: NftItemData
     
     enum CodingKeys: String, CodingKey {
         case id
         case name
+        case symbol
         case thumbImgURL = "thumb"
         case data
     }

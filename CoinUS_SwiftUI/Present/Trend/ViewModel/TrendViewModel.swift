@@ -37,6 +37,7 @@ extension TrendViewModel {
         var trendCoinItems: [TrendTOPEntity] = []
         var trendNftItems: [TrendTOPEntity] = []
         var isOverFourth: Bool = false
+        var isLoading: Bool = true
     }
     
     func transform() {
@@ -44,20 +45,24 @@ extension TrendViewModel {
             .sink { [weak self] _ in
                 guard let self else { return }
                 Task {
-                    self.getTrendCoinInfo()
-                    self.getTrendNftInfo()
+                    self.output.isLoading = true
+                    await self.getTrendCoinInfo()
+                    await self.getTrendNftInfo()
                     await self.getFavoriteCoinInfo()
+                    self.output.isLoading = false
                 }
             }
             .store(in: &cancellables)
     }
     
-    private func getTrendCoinInfo() {
-        output.trendCoinItems = trendRepository.getTrendInfo(type: .coin)
+    private func getTrendCoinInfo() async {
+        let trendCoinInfo = await trendRepository.getTrendInfo(type: .coin)
+        output.trendCoinItems = trendCoinInfo
     }
     
-    private func getTrendNftInfo() {
-        output.trendNftItems = trendRepository.getTrendInfo(type: .nft)
+    private func getTrendNftInfo() async {
+        let trendNftInfo = await trendRepository.getTrendInfo(type: .nft)
+        output.trendNftItems = trendNftInfo
     }
     
     private func getFavoriteCoinInfo() async {

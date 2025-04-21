@@ -8,12 +8,58 @@
 import Foundation
 
 protocol TrendRepository: AnyObject {
-    func getTrendInfo(type: TrendType) -> [TrendTOPEntity]
+    func getTrendInfo(type: TrendType) async -> [TrendTOPEntity]
+}
+
+final class DefaultTrendRepository: TrendRepository {
+    
+    func getTrendInfo(type: TrendType) async -> [TrendTOPEntity] {
+        
+        let network = NetworkManager.shared
+        
+        do {
+            let api = NetworkURL.trend
+            let trends: GeckoTrending = try await network.request(api: api)
+            let coins = trends.coins
+            let nfts = trends.nfts
+            
+            let coinEntities = coins.map {
+               return TrendTOPEntity(
+                    id: $0.item.stringID,
+                    name: $0.item.name,
+                    symbol: $0.item.symbol,
+                    image: $0.item.thumbImgURL,
+                    price: "$" + String(format: "%.4f", $0.item.data.price),
+                    changePercentage: $0.item.data.changePercentage.krw.translateChangeRate()
+                )
+            }
+            
+            let nftEntities = nfts.map {
+                return TrendTOPEntity(
+                    id: $0.id,
+                    name: $0.name,
+                    symbol: $0.symbol,
+                    image: $0.thumbImgURL,
+                    price: $0.data.floorPrice.getNftPrice(),
+                    changePercentage: Double($0.data.changePercentage)?.translateChangeRate() ?? ""
+                )
+            }
+            
+            switch type {
+            case .coin: return coinEntities
+            case .nft: return nftEntities
+            }
+        } catch {
+            print(error)
+            
+            return []
+        }
+    }
 }
 
 final class DummyTrendRepository: TrendRepository {
     
-    func getTrendInfo(type: TrendType) -> [TrendTOPEntity] {
+    func getTrendInfo(type: TrendType) async -> [TrendTOPEntity] {
         switch type {
         case .coin:
             return [

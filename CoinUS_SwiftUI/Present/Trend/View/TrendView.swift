@@ -25,6 +25,7 @@ struct TrendView: View {
         .onAppear {
             viewModel.action(.onAppear)
         }
+        .redacted(reason: viewModel.output.isLoading ? .placeholder : [])
     }
     
     private var favoriteTitle: some View {

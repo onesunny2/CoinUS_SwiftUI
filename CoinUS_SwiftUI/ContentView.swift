@@ -23,7 +23,7 @@ struct ContentView: View {
             TabView(selection: $selectedTab) {
                 let appStorage = AppStorageManager.shared
                 
-                let trendRP = DummyTrendRepository()
+                let trendRP = DefaultTrendRepository()
                 let favoriteRP = DefaultFavoriteRepository()
                 let trendVM = TrendViewModel(trendRepository: trendRP, favoriteRepository: favoriteRP)
                 NavigationView {
