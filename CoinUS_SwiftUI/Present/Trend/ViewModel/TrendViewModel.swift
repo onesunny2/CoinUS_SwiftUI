@@ -36,15 +36,18 @@ extension TrendViewModel {
         var favoriteItems: [FavoriteCoinEntity] = []
         var trendCoinItems: [TrendTOPEntity] = []
         var trendNftItems: [TrendTOPEntity] = []
+        var isOverFourth: Bool = false
     }
     
     func transform() {
         input.onAppear
             .sink { [weak self] _ in
                 guard let self else { return }
-                self.getTrendCoinInfo()
-                self.getTrendNftInfo()
-                self.getFavoriteCoinInfo()
+                Task {
+                    self.getTrendCoinInfo()
+                    self.getTrendNftInfo()
+                    await self.getFavoriteCoinInfo()
+                }
             }
             .store(in: &cancellables)
     }
@@ -57,8 +60,16 @@ extension TrendViewModel {
         output.trendNftItems = trendRepository.getTrendInfo(type: .nft)
     }
     
-    private func getFavoriteCoinInfo() {
-        output.favoriteItems = favoriteRepository.getFavoriteInfo(type: .trend)
+    private func getFavoriteCoinInfo() async {
+        
+        let favoriteInfo = await favoriteRepository.getFavoriteInfo(type: .trend)
+        
+        guard favoriteInfo.count > 3 else {
+            output.favoriteItems = favoriteInfo
+            return
+        }
+        output.favoriteItems = Array(favoriteInfo[0...2])
+        output.isOverFourth = true
     }
 }
 

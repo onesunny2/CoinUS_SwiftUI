@@ -37,13 +37,17 @@ extension FavoriteViewModel {
         input.onAppear
             .sink { [weak self] _ in
                 guard let self else { return }
-                self.getFavoriteCoinInfo()
+                Task {
+                    await self.getFavoriteCoinInfo()
+                }
             }
             .store(in: &cancellables)
     }
     
-    private func getFavoriteCoinInfo() {
-        output.favoriteItems = favoriteRepository.getFavoriteInfo(type: .favorite)
+    private func getFavoriteCoinInfo() async {
+        
+        let favoriteInfo = await favoriteRepository.getFavoriteInfo(type: .favorite)
+        output.favoriteItems = favoriteInfo
     }
 }
 

@@ -24,7 +24,7 @@ struct ContentView: View {
                 let appStorage = AppStorageManager.shared
                 
                 let trendRP = DummyTrendRepository()
-                let favoriteRP = DummyFavoriteRepository()
+                let favoriteRP = DefaultFavoriteRepository()
                 let trendVM = TrendViewModel(trendRepository: trendRP, favoriteRepository: favoriteRP)
                 NavigationView {
                     TrendView(viewModel: trendVM)

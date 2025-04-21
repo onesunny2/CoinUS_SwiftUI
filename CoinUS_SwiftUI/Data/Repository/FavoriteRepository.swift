@@ -8,11 +8,48 @@
 import Foundation
 
 protocol FavoriteRepository: AnyObject {
-    func getFavoriteInfo(type: FavoriteType) -> [FavoriteCoinEntity]
+    func getFavoriteInfo(type: FavoriteType) async -> [FavoriteCoinEntity]
+}
+
+final class DefaultFavoriteRepository: FavoriteRepository {
+    func getFavoriteInfo(type: FavoriteType) async -> [FavoriteCoinEntity] {
+        
+        let appStorage = AppStorageManager.shared
+        let savedIds = appStorage.loadFavoriteItem()
+        
+        let network = NetworkManager.shared
+        
+        guard !savedIds.isEmpty else { return [] }
+        
+        do {
+            let api = NetworkURL.market(ids: savedIds)
+            let markets: [GeckoMarket] = try await network.request(api: api)
+            
+            let favoriteEntities = markets.map {
+                
+                let price = "₩\($0.currentPrice.formatted())"
+                let percentage = $0.pricePercentage.translateChangeRate()
+                
+                return FavoriteCoinEntity(
+                    id: $0.id,
+                    name: $0.name,
+                    symbol: $0.symbol,
+                    image: $0.image,
+                    currentPrice: price,
+                    changePercentage: percentage
+                )
+            }
+            
+            return favoriteEntities
+        } catch {
+            print(error)
+            return []
+        }
+    }
 }
 
 final class DummyFavoriteRepository: FavoriteRepository {
-    func getFavoriteInfo(type: FavoriteType) -> [FavoriteCoinEntity] {
+    func getFavoriteInfo(type: FavoriteType) async -> [FavoriteCoinEntity] {
         switch type {
         default:
             return [

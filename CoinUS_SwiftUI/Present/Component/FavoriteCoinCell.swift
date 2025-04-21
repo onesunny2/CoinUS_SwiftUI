@@ -56,11 +56,16 @@ struct FavoriteCoinCell: View {
     }
 }
 
-#Preview {
-    
-    let data = DummyFavoriteRepository().getFavoriteInfo(type: .trend)[0]
-    let type: FavoriteType = .favorite
-
-    FavoriteCoinCell(favoriteData: data, type: type)
-        .padding(.horizontal, 20)
-}
+//#Preview {
+//    // 더미 데이터 직접 생성
+//    let dummyData = FavoriteCoinEntity(
+//        id: "bitcoin",
+//        name: "Bitcoin", symbol: "btc",
+//        image: "bitcoin_image_url",
+//        currentPrice: "68000.0",
+//        changePercentage: "2.5"
+//    )
+//    
+//    FavoriteCoinCell(favoriteData: dummyData, type: .favorite)
+//        .padding(.horizontal, 20)
+//}

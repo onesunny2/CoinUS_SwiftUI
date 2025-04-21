@@ -14,7 +14,9 @@ struct TrendView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 40) {
-                favoriteList
+                if viewModel.output.favoriteItems.count >= 2 {
+                    favoriteList
+                }
                 TrendTopGridCell(title: StringLiteral.topCoin.text, trendData: viewModel.output.trendCoinItems, trendType: .coin)
                 TrendTopGridCell(title: StringLiteral.topNft.text, trendData: viewModel.output.trendNftItems, trendType: .nft)
             }
@@ -37,8 +39,22 @@ struct TrendView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     ForEach(viewModel.output.favoriteItems, id: \.id) { coin in
-                        FavoriteCoinCell(favoriteData: coin, type: .trend)
+                        NavigationLink {
+                            ChartView()
+                        } label: {
+                            FavoriteCoinCell(favoriteData: coin, type: .trend)
+                        }
                     }
+                    
+                    // 옵션 기능 (나중에)
+//                    if viewModel.output.isOverFourth {
+//                        Button {
+//                            // 탭 이동시키기
+//                        } label: {
+//                            
+//                        }
+
+//                    }
                 }
                 .padding(.horizontal, 20)
             }
